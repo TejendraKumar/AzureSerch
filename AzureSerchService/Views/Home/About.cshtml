@@ -1,0 +1,18 @@
+﻿@using AzureSerchService.Models
+@{
+    var data = ViewBag.Message;
+    foreach (var item in data)
+    {
+        <h2>CITY:   @item.city</h2>
+        <p>DESCRIPTION:    @item.description</p>
+        <p><small>REGION:   @item.region</small>       <small style="margin-left:50px">Street:    @item.street</small></p>
+        <p><small>STATUS:  @item.status</small>         <small style="margin-left:50px">Beds:     @item.beds</small></p>
+        <p>UNIT:   @item.unit             <small style="margin-left:50px">  Baths: @item.baths</small></p>
+        
+
+       
+    }
+}
+
+
+

@@ -1,0 +1,38 @@
+﻿@using AzureSerchService.Models
+@{
+
+
+    var data = ViewBag.Message;
+    <div class="parent">
+        <div class="child">
+            <iframe src=" https://storageazuresearch11719.blob.core.windows.net/mycontainer/5074.clip_image002_6FE27E85.png?sv=2018-03-28&ss=bqtf&srt=sco&sp=rwdlacup&se=2019-07-18T15:28:41Z&sig=VQ2RDMCnLuAkqfh7Ts7RvWPjvoaYrhwYFByXvz1SGzY%3D&_=1563434929506&embedded=true"  scrolling="no" style="width:100%; height:100%; overflow: hidden; "  frameborder="0"></iframe>
+           
+        </div>
+    </div>
+    <div class="parent">
+        <div class="child">
+            <iframe src="https://storageazuresearch11719.blob.core.windows.net/mycontainer/Cognitive%20Services%20and%20Bots%20%20(spanish).pdf?sv=2018-03-28&ss=bqtf&srt=sco&sp=rwdlacup&se=2019-07-18T15:28:41Z&sig=VQ2RDMCnLuAkqfh7Ts7RvWPjvoaYrhwYFByXvz1SGzY%3D&_=1563434929506&embedded=true" scrolling="no" style="width:100%; height:100%; overflow: hidden; " frameborder="0"></iframe>
+        </div>
+        </div>
+
+            foreach (var item in data)
+            {
+
+            }
+
+            }
+            <style>
+                .parent {
+                    width: 1200px;
+                    height: 300px;
+                    border: 1px solid #aaa;
+                    overflow: hidden;
+                }
+
+                .child {
+                    height: 100%;
+                    margin-right: -50px; /* maximum width of scrollbar */
+                    padding-right: 50px; /* maximum width of scrollbar */
+                    
+                }
+            </style>
