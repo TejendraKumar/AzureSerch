@@ -1,38 +1,116 @@
 ﻿@using AzureSerchService.Models
+@model  List<blobSearch>
 @{
 
 
-    var data = ViewBag.Message;
+    // var data = ViewBag.Message;
+    @*<div class="parent">
+            <div class="child">
+                <iframe src=" https://storageazuresearch11719.blob.core.windows.net/mycontainer/5074.clip_image002_6FE27E85.png?sv=2018-03-28&ss=bqtf&srt=sco&sp=rwdlacup&se=2019-07-18T15:28:41Z&sig=VQ2RDMCnLuAkqfh7Ts7RvWPjvoaYrhwYFByXvz1SGzY%3D&_=1563434929506&embedded=true"  scrolling="no" style="width:100%; height:100%; overflow: hidden; "  frameborder="0"></iframe>
+
+            </div>
+        </div>*@
     <div class="parent">
-        <div class="child">
-            <iframe src=" https://storageazuresearch11719.blob.core.windows.net/mycontainer/5074.clip_image002_6FE27E85.png?sv=2018-03-28&ss=bqtf&srt=sco&sp=rwdlacup&se=2019-07-18T15:28:41Z&sig=VQ2RDMCnLuAkqfh7Ts7RvWPjvoaYrhwYFByXvz1SGzY%3D&_=1563434929506&embedded=true"  scrolling="no" style="width:100%; height:100%; overflow: hidden; "  frameborder="0"></iframe>
-           
-        </div>
+        @*<div class="child">
+                <iframe src="data:application/pdf;base64,aHR0cHM6Ly9zdG9yYWdlYXp1cmVzZWFyY2gxMTcxOS5ibG9iLmNvcmUud2luZG93cy5uZXQvbXljb250YWluZXIvNTA3NC5jbGlwX2ltYWdlMDAyXzZGRTI3RTg1LnBuZw2"+ scrolling="no" style="width:100%; height:100%; overflow: hidden; " frameborder="0"></iframe>
+            </div>*@
     </div>
-    <div class="parent">
-        <div class="child">
-            <iframe src="https://storageazuresearch11719.blob.core.windows.net/mycontainer/Cognitive%20Services%20and%20Bots%20%20(spanish).pdf?sv=2018-03-28&ss=bqtf&srt=sco&sp=rwdlacup&se=2019-07-18T15:28:41Z&sig=VQ2RDMCnLuAkqfh7Ts7RvWPjvoaYrhwYFByXvz1SGzY%3D&_=1563434929506&embedded=true" scrolling="no" style="width:100%; height:100%; overflow: hidden; " frameborder="0"></iframe>
-        </div>
-        </div>
+    <script type="text/javascript">
+        function addSasTokenInDecodedString(decodedStr) {
+            return decodedStr + "?sv=2018-03-28&ss=bfqt&srt=sco&sp=rl&se=2019-07-20T22:11:06Z&st=2019-07-19T14:11:06Z&spr=https,http&sig=JlyIB%2B5Oye9IkT7th8WNO8MtUvVZjvpQhXQZavNJ4Aw%3D"
 
-            foreach (var item in data)
+        }
+        function getDecodedURl(encodedStr) {
+            try {
+                console.log("input: " + encodedStr);
+                var x = atob(encodedStr);
+                console.log("converted: " + x);
+                var y =  addSasTokenInDecodedString(x);
+                return y;
+            } catch{
+                return "";
+            }
+
+        }
+   
+
+
+    </script>
+    <div id="parent_div" class="parent">
+        @foreach (var item in Model)
+        {
+            var sas = item.SasToken;
+            var path = item.metadata_storage_path;
+            var isAlreadyDecoded = item.IsAlreadyDecoded ?"yes":"no";
+            if (@item.ContentType.Contains("image"))
             {
-
+        <div class="row child">
+            <div class="col-11">
+                @*<div>data:@item.ContentType;base64,@s@sas </div>*@
+                <img isDocType="yes" isAlreadyDecoded="@isAlreadyDecoded" enUrl="@path" src="#" style="width:100%; height:100%; " />
+            </div>
+        </div>
+            }
+            else
+            {
+                <div class="row child">
+                    <div class="col-11">
+                        <iframe isDocType="yes" isAlreadyDecoded="@isAlreadyDecoded" enUrl="@path" src=""  scrolling="yes" style="width:100%; height:200px; overflow: hidden; background-color:white ; " frameborder="0"></iframe>
+                    </div>
+                </div>
             }
 
-            }
-            <style>
-                .parent {
-                    width: 1200px;
-                    height: 300px;
-                    border: 1px solid #aaa;
-                    overflow: hidden;
-                }
+        }
+        
+    </div>
+}
 
-                .child {
-                    height: 100%;
-                    margin-right: -50px; /* maximum width of scrollbar */
-                    padding-right: 50px; /* maximum width of scrollbar */
+<style>
+    .parent {
+        width: 100%;
+        /*height: 300px;*/
+       
+        overflow: hidden;
+    }
+
+    .child {
+        height: 100%;
+        min-height: 200px;
+        max-height: 200px;
+        overflow-y: auto;
+        color: white;
+        /*margin-right: -50px;*/ /* maximum width of scrollbar */
+        margin-left: 20px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border: 1px solid #aaa;
+    }
+</style>
+<script type="text/javascript">
+
+    $(function () {
+        $("#parent_div [isDocType=yes]").each(function () {
+            try {
+                var encodedUrl = $(this).attr('enUrl');
+                var isAlreadyDecoded = $(this).attr('isAlreadyDecoded');
+            
+                if (isAlreadyDecoded == "no") {
+                    encodedUrl = encodedUrl.replace(/\s+/gmi, '');
+                    var d = getDecodedURl(encodedUrl);
+                    console.log("if: " + d);
+                    $(this).attr('src', d.replace("5?sv=", "?sv=") );
+                } else {
+                    encodedUrl = encodedUrl.replace(/\s+/gmi, '');
+                    var d = addSasTokenInDecodedString(encodedUrl);
+                    console.log("else: " + d);
+                    $(this).attr('src', d.replace("5?sv=", "?sv=") );
                     
                 }
-            </style>
+            } catch{
+
+            }
+
+        });
+
+    });
+</script>
